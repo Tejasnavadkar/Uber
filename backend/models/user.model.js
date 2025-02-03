@@ -36,7 +36,7 @@ const userSchema = mongoose.Schema({
   //we need to create an instance based on specific user/user model with the user data and then call it like classMethod
 
 userSchema.methods.generateAuthToken = function (){
-  const token = jwt.sign({_id:this._id},process.env.JWT_SECRET)
+  const token = jwt.sign({_id:this._id},process.env.JWT_SECRET,{expiresIn:'24h'})  // token expires after 24 hr of issued time so agar blacklist model empty o jay tab bhi token nahi chalega
   return token
 }
 

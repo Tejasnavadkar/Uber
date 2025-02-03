@@ -4,16 +4,22 @@ const cors = require('cors')
 const app = express()
 const ConnectToDb = require('./db/db')
 const cookieParser = require('cookie-parser')
+const userRoutes = require('./routes/user.routes')
+const captainRoutes = require('./routes/captain.routes')
+
 
 dotenv.config()
+ConnectToDb() // if we call this fn above dotenv.config() it gives error becoz we trying to set connection befor configuring env and inside env we have db url 
 app.use(cors()) // initialy we allow req from all domains but in prod we set a particular domain
 app.use(express.json())
 app.use(cookieParser())
-ConnectToDb()
+app.use(express.urlencoded({extended:true})) 
 
-// app.get('/',(req,res)=>{
-//     res.json({msg:"hiii"})
-// })
+// Why Use express.urlencoded()
+// When a user submits a form on a webpage or sends data in application/x-www-form-urlencoded format (the default for HTML forms), the server needs to parse that data to access it.
+// express.urlencoded() is a built-in middleware in Express that extracts the form data and makes it available in req.body.
 
-// app.listen(port,()=> console.log(`server started at port ${port} `)) we create server through http module
-module.exports = app  // for make router
+app.use('/user',userRoutes)  // first go req from here
+app.use('/captain',captainRoutes)
+
+module.exports = app  // for make server in server.js

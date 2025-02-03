@@ -1,6 +1,7 @@
 const userModel = require('../models/user.model')  // here we create our controllers (api logic)
 const {validationResult} = require('express-validator')// now i want to check the error is available or not through express-validator
 const userServices = require('../services/user.service')
+const blacklistTokensModel = require('../models/blacklistTokens.model')
 
 
 module.exports.registerUser = async (req,res,next) =>{ // now import service here to create user
@@ -13,7 +14,7 @@ module.exports.registerUser = async (req,res,next) =>{ // now import service her
 
    const {fullname,email,password} = req.body
 
-  const isUserAlready = await userModel.findOne({email})
+  const isUserAlreadyExist = await userModel.findOne({email})
 
   if(isUserAlready) return res.status(400).json({msg:'user already exist'})
 
@@ -80,6 +81,16 @@ module.exports.getUserProfile = async (req,res,next) =>{
 
   return res.status(200).json({user:req.user})
 
+}
+
+module.exports.logoutUser = async (req,res,next) =>{
+  
+  res.clearCookie('token')  // first cleare token present in cookie then blacklist
+  const token = req.cookies.token || req.headers.authorization?.split(' ')[1]
+
+  await blacklistTokensModel.create({token})
+
+  return res.status(200).json({msg:'Logged Out'})
 }
 
 
