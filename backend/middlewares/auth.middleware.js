@@ -50,6 +50,8 @@ module.exports.authCaptain = async (req,res,next) =>{
       return next()
 
    } catch (error) {
-      console.log('error in authCaptain--',error)
+      console.log('error in authCaptain while verifying jwt token--',error)
+      return res.status(401).json({msg:'Unauthorized'})
+
    }
 }

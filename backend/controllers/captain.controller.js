@@ -95,34 +95,21 @@ module.exports.getCaptain = async (req,res,next) =>{
 }
 
 module.exports.logoutCaptain = async (req,res,next)=>{
+     try {
       res.clearCookie("token");
 
       const token = req.cookies.token || req.headers.authorization?.split(' ')[1]
 
-      
+      const isExist = await blacklistTokensModel.findOne({token})
+      if(!isExist){
       await blacklistTokensModel.create({token})
-
+      }
       return res.status(200).json({msg:'Logged Out'})
+
+     } catch (error) {
+        console.log('err while logou captain--',error)
+     }
 }
 
 
 
-// response 
-
-// {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzlmODhhMTUyNmRiMzhiMDNiMzk5NDMiLCJpYXQiOjE3Mzg1MDg0NDksImV4cCI6MTczODU5NDg0OX0.K-Ft6cEwLoXDTM0pTOtaBJ5Wm12fptja8SawOVn-CZg",
-//     "captain":{"fullname":{
-//         "firstname":"haddy",
-//         "lastname":"lawrence"
-//     },
-//     "email":"haddccccy@example.com",
-//     "password":"$2b$10$1Eb.NtmJgMeLYwWUUQvjR.17vZoOf.LSKIfLokPpJyL/FU3Gy3lge",
-//     "status":"inactive",
-//     "vehicle":{
-//         "color":"red",
-//         "plate":"MP 04 xy 5665",
-//         "capacity":3,
-//         "vehicleType":"car"
-//     },
-//     "_id":"679f88a1526db38b03b39943",
-//     "__v":0
-// }}

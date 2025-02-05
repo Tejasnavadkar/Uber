@@ -16,7 +16,7 @@ module.exports.registerUser = async (req,res,next) =>{ // now import service her
 
   const isUserAlreadyExist = await userModel.findOne({email})
 
-  if(isUserAlready) return res.status(400).json({msg:'user already exist'})
+  if(isUserAlreadyExist) return res.status(400).json({msg:'user already exist'})
 
   const hashedPassword = await userModel.hashPassword(password)
 
@@ -85,12 +85,20 @@ module.exports.getUserProfile = async (req,res,next) =>{
 
 module.exports.logoutUser = async (req,res,next) =>{
   
+try {
   res.clearCookie('token')  // first cleare token present in cookie then blacklist
   const token = req.cookies.token || req.headers.authorization?.split(' ')[1]
-
+  
+  const isExist = await blacklistTokensModel.findOne({token})
+  
+  if(!isExist){
   await blacklistTokensModel.create({token})
-
+  }
   return res.status(200).json({msg:'Logged Out'})
+
+} catch (error) {
+  console.log('err while userlogout-----',error)
+}
 }
 
 
@@ -107,16 +115,3 @@ module.exports.logoutUser = async (req,res,next) =>{
 // module.exports = {registerUser}
 
 
-// {
-//     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzlkYjBkNzhhYTAzMDgxOTdhMjIzNTAiLCJpYXQiOjE3MzgzODc2NzF9.Xw7_zLCYA7ZkbOwB3KS_8oIwJTNFfDC_LTPZUTmQXjQ",
-//     "user": {
-//         "fullname": {
-//             "firstname": "jhone",
-//             "lastname": "doe"
-//         },
-//         "email": "jhon@gmail.com",
-//         "password": "$2b$10$/AQlAQo32x7Sw/aq3v4OouWbjp.ZlzKosEZA1S3DZmGvpWHNmu4pi",
-//         "_id": "679db0d78aa0308197a22350",
-//         "__v": 0
-//     }
-// }
