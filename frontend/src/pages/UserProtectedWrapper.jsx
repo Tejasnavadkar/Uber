@@ -17,22 +17,25 @@ const UserProtectedWrapper = ({children}) =>{
     if(!token){
         navigate('/login')
        }
+
+       axios.get(`${import.meta.env.VITE_BASE_URL}/user/profile`,{
+        headers:{
+            Authorization:`bearer ${token}`
+        }
+       }).then((response)=>{
+            if(response.status === 200){
+                setUser(response.data.user)
+                setIsLoading(false)
+            }
+       }).catch((err)=>{
+        console.log('err in UserProtected Wrapper--',err)
+        localStorage.removeItem('token')
+        navigate('/login')
+       })
+       
    },[token])
 
-   axios.get(`${import.meta.env.VITE_BASE_URL}/user/profile`,{
-    headers:{
-        Authorization:`bearer ${token}`
-    }
-   }).then((response)=>{
-        if(response.status === 200){
-            setUser(response.data.user)
-            setIsLoading(false)
-        }
-   }).catch((err)=>{
-    console.log('err in UserProtected Wrapper--',err)
-    localStorage.removeItem('token')
-    navigate('/login')
-   })
+   
 
    if(isLoading){
     return <div>
