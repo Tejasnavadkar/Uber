@@ -1,0 +1,45 @@
+
+
+export const ConfirmedRide = ({setConfirmedRidePanelOpen,setVehicleFound}) =>{
+
+    return (
+        <div>
+            <span className="absolute top-2 w-full flex justify-center text-2xl" onClick={()=>setConfirmedRidePanelOpen(false)} ><i className="ri-arrow-down-wide-line"></i></span>
+            <h3 className="font-semibold text-xl my-2">Confirm your Ride</h3>
+            <div className="flex flex-col gap-4">
+                <div className="w-full flex justify-center">
+                <img className="h-20" src="https://www.uber-assets.com/image/upload/f_auto,q_auto:eco,c_fill,h_552,w_552/v1555367310/assets/30/51e602-10bb-4e65-b122-e394d80a9c47/original/Final_UberX.png" alt="" />
+                </div>
+
+                <div className="flex gap-3 items-center border-b pb-2 border-b-gray-300 px-2 ">
+                    <span><i className="ri-map-pin-user-fill"></i></span>
+                    <div className="flex flex-col">
+                        <span className="font-medium text-lg">562/11-A</span>
+                        <span className="text-sm text-gray-600 ">Kankariya Talab, bhopal</span>
+                    </div>
+                </div>
+                <div className="flex gap-3 items-center border-b pb-2 border-b-gray-300 px-2 ">
+                    <span><i className="ri-map-pin-fill"></i></span>
+                    <div className="flex flex-col">
+                        <span className="font-medium text-lg">562/11-A</span>
+                        <span className="text-sm text-gray-600 ">Kankariya Talab, bhopal</span>
+                    </div>
+                </div>
+                <div className="flex gap-3 items-center px-2 ">
+                    <span><i className="ri-currency-line"></i></span>
+                    <div className="flex flex-col">
+                        <span className="font-medium text-lg">₹193.20</span>
+                        <span className="text-sm text-gray-600 ">Cash Cash</span>
+                    </div>
+                </div>
+                
+            </div>
+            <div>
+                <button onClick={()=>{
+                    setVehicleFound(true)
+                    setConfirmedRidePanelOpen(false)
+                    }} className="bg-green-600 flex w-full justify-center py-2 mt-4 text-white rounded-lg">Confirm</button>
+            </div>
+        </div>
+    )
+}
