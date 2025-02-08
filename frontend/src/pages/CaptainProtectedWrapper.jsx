@@ -11,6 +11,7 @@ const CaptainProtectedWrapper = ({children}) =>{
   const navigate =  useNavigate()
   const {setCaptain} = useCaptainContext()
   const [isLoading,setLoading] = useState(true)
+  
   const token = localStorage.getItem('token')
 
    useEffect(()=>{
@@ -40,7 +41,7 @@ const CaptainProtectedWrapper = ({children}) =>{
   
 
    if(isLoading){
-    return <div>
+    return <div className="h-screen w-full flex justify-center items-center">
         Loading..
     </div>
    }
