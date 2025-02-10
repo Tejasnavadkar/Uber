@@ -8,6 +8,8 @@ const userRoutes = require('./routes/user.routes')
 const captainRoutes = require('./routes/captain.routes')
 const mapsRoutes = require('./routes/maps.routes')
 
+const rideRoutes = require('./routes/rides.routes')
+
 
 dotenv.config()
 ConnectToDb() // if we call this fn above dotenv.config() it gives error becoz we trying to set connection befor configuring env and inside env we have db url 
@@ -23,5 +25,6 @@ app.use(express.urlencoded({extended:true}))
 app.use('/user',userRoutes)  // first go req from here
 app.use('/captain',captainRoutes)
 app.use('/maps',mapsRoutes)
+app.use('/rides',rideRoutes)
 
 module.exports = app  // for make server in server.js

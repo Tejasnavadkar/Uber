@@ -1,7 +1,7 @@
 
 
 
-export const LocationSearchPanel = ({setVehiclePanleOpen,setPanelOpen}) => {
+export const LocationSearchPanel = ({setVehiclePanleOpen,setPanelOpen,suggestions,activeState,setPickup,setDestination}) => {
 
     const Locations = [
         "24B, Near Kapoor's cafe, Sheryians Coding School, Bhopal",
@@ -12,8 +12,8 @@ export const LocationSearchPanel = ({setVehiclePanleOpen,setPanelOpen}) => {
 
     return (
         <div className="px-4">
-            {Locations.map((item)=>{
-                return <LocationSearchItem key={item} address={item} setVehiclePanleOpen={setVehiclePanleOpen} setPanelOpen={setPanelOpen} />
+            {suggestions?.map((item,idx)=>{
+                return <LocationSearchItem key={idx}  address={item.description} setVehiclePanleOpen={setVehiclePanleOpen} setPanelOpen={setPanelOpen} activeState={activeState} setPickup={setPickup} setDestination={setDestination} />
             })}
 
         </div>
@@ -22,13 +22,15 @@ export const LocationSearchPanel = ({setVehiclePanleOpen,setPanelOpen}) => {
 
 
 
-export const LocationSearchItem = ({ address,setVehiclePanleOpen,setPanelOpen }) => {
+export const LocationSearchItem = ({ address,setVehiclePanleOpen,setPanelOpen,activeState,setPickup,setDestination }) => {
 
     return (
         <div>
             <div onClick={()=>{
-                setVehiclePanleOpen(true)
-                setPanelOpen(false)
+                // setVehiclePanleOpen(true)
+                // setPanelOpen(false)
+                activeState === 'pickup' ? setPickup(address) : setDestination(address)
+
                 }} className="flex border border-gray-300 active:border-black rounded-lg gap-3 items-center my-2 hover:bg-[#eee] py-2 px-2">
                 <span className="bg-[#eee] rounded-full flex justify-center items-center px-2 py-1 ">
                 <i className="ri-map-pin-fill"></i>

@@ -6,7 +6,7 @@ const {query} = require('express-validator')
 
 
 router.get('/get-coordinates',
-    query('address').isString().isLength({min:3}),
+    query('address').isString().isLength({min:3}).withMessage('invalid address'),
     AuthMiddlewares.authUser,mapsController.getCoordinates)
 
 router.get('/get-distance-time',[
@@ -18,7 +18,7 @@ mapsController.getDistanceTime
 )
 
 router.get('/get-suggetions',[
-    query('input').isString().isLength({min:3})
+    query('input').isString().isLength({min:3}).withMessage('invalid input')
 ],
 AuthMiddlewares.authUser,
 mapsController.getSuggetions

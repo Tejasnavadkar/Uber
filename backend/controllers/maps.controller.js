@@ -47,7 +47,7 @@ module.exports.getSuggetions = async (req,res,next) =>{
 
    try {
     if(!errors.isEmpty()){
-        return res.status(400).json.status({errors:errors.array()})
+        return res.status(400).json({errors:errors.array()})
     }
     const {input} = req.query
 
@@ -55,6 +55,7 @@ module.exports.getSuggetions = async (req,res,next) =>{
 
    return res.status(200).json({suggestions:suggestions})
    } catch (error) {
+    console.log('err in suggetions controller--',error)
     throw new Error('err in suggetions controller--',error)
    }
 
